@@ -53,4 +53,27 @@ public class Solution {
         return true;
     }
 
+    /**
+     * References: https://discuss.leetcode.com/topic/8241/my-short-solution-by-c-o-n2/13
+     */
+    public boolean myBetter(char[][] board) {
+        boolean[][] row = new boolean[9][9];
+        boolean[][] col = new boolean[9][9];
+        boolean[][] box = new boolean[9][9];
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (board[i][j] != '.') {
+                    int num = board[i][j] - '0';
+                    int numIndex = num - 1;
+                    int boxIndex = i / 3 * 3 + j / 3;
+                    if (row[i][numIndex] || col[j][numIndex] || box[boxIndex][numIndex]) {
+                        return false;
+                    }
+                    row[i][numIndex] = col[j][numIndex] = box[boxIndex][numIndex] = true;
+                }
+            }
+        }
+        return true;
+    }
+
 }
