@@ -58,4 +58,22 @@ public class Solution41 {
         return missing;
     }
 
+    public static int better(int[] A) {
+        final int len = A.length;
+        for (int i = 0; i < len; i++) {
+            // 始终让A[i]的数字保持正确
+            while (A[i] > 0 && A[i] <= len && A[i] != A[A[i] - 1]) {
+                int tmp = A[i];
+                A[i] = A[A[i] - 1];
+                A[tmp - 1] = tmp;
+            }
+        }
+        for (int i = 0; i < len; i++) {
+            if (A[i] != i + 1) {
+                return i + 1;
+            }
+        }
+        return len + 1;
+    }
+
 }
