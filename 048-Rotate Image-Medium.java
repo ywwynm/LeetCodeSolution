@@ -19,10 +19,10 @@ public class Solution48 {
                 { 4, 5, 6 },
                 { 7, 8, 9 }
         };
-        rotate(matrix);
+        inSpace(matrix);
         for (int[] ints : matrix) {
             for (int anInt : ints) {
-                System.out.print(anInt );
+                System.out.print(anInt + " ");
             }
             System.out.println();
         }
@@ -41,6 +41,24 @@ public class Solution48 {
         for (int i = 0; i < N; i++) {
             System.arraycopy(newImage[i], 0, image[i], 0, N);
         }
+    }
+
+    public static void inSpace(int[][] matrix) {
+        final int len = matrix.length;
+        int times = len % 2 == 0 ? len / 2 : len / 2 + 1;
+        for (int i = 0; i < times; i++) { // i
+            for (int j = i; j < len - i - 1; j++) {
+                // i,j -> j,len-1-i
+                int temp1 = matrix[j][len - 1 - i];
+                matrix[j][len - 1 - i] = matrix[i][j];
+                int temp2 = matrix[len - 1 - i][len - 1 - j];
+                matrix[len - 1 - i][len - 1 - j] = temp1;
+                int temp3 = matrix[len - 1 - j][i];
+                matrix[len - 1 - j][i] = temp2;
+                matrix[i][j] = temp3;
+            }
+        }
+
     }
 
 }
