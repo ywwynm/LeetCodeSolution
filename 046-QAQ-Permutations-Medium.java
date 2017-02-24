@@ -22,8 +22,8 @@ import java.util.List;
 public class Solution46 {
 
     public static void main(String... args) {
-        int[] nums = { 1, 2, 3 };
-        List<List<Integer>> lists = permute(nums);
+        int[] nums = { 1, 2, 3, 4 };
+        List<List<Integer>> lists = better(nums);
         for (List<Integer> list : lists) {
             for (Integer integer : list) {
                 System.out.print(integer + " ");
@@ -50,6 +50,35 @@ public class Solution46 {
                 }
             }
         }
+    }
+
+    public static List<List<Integer>> better(int[] nums) {
+        List<List<Integer>> ret = new ArrayList<>();
+        permute(nums, 0, ret);
+        return ret;
+    }
+
+    private static void permute(int[] nums, int start, List<List<Integer>> ret) {
+        if (start == nums.length) {
+            List<Integer> list = new ArrayList<>();
+            for (int num : nums) {
+                list.add(num);
+            }
+            ret.add(list);
+            return;
+        }
+
+        for (int i = start; i < nums.length; i++) {
+            swap(nums, i, start);
+            permute(nums, start + 1, ret);
+            swap(nums, i, start);
+        }
+    }
+
+    private static void swap(int[] nums, int i, int j) {
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
     }
 
 }
