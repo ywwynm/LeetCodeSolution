@@ -22,7 +22,7 @@ public class Solution47 {
 
     public static void main(String... args) {
         int[] nums = { 1, 1, 2 };
-        List<List<Integer>> lists = permuteUnique(nums);
+        List<List<Integer>> lists = myBetter(nums);
         for (List<Integer> list : lists) {
             for (Integer integer : list) {
                 System.out.print(integer + " ");
@@ -31,30 +31,32 @@ public class Solution47 {
         }
     }
 
+    // 可以过但是概率不是 100%。。。
     public static List<List<Integer>> permuteUnique(int[] nums) {
         List<List<Integer>> ret = new ArrayList<>();
-        Arrays.sort(nums);
+        HashSet<List<Integer>> set = new HashSet<>();
         List<Integer> numsList = new ArrayList<>();
         for (int num : nums) {
             numsList.add(num);
         }
-        helper(ret, numsList, new ArrayList<>());
+        helper(ret, set, numsList, new ArrayList<>());
         return ret;
     }
 
-    private static void helper(List<List<Integer>> ret, List<Integer> nums, List<Integer> toAdd) {
+    private static void helper(List<List<Integer>> ret, HashSet<List<Integer>> set, List<Integer> nums, List<Integer> toAdd) {
         final int size = nums.size();
         if (size == 0) {
-            ret.add(toAdd);
+            if (set.add(toAdd)) {
+                ret.add(toAdd);
+            }
             return;
         }
 
         for (int i = 0; i < size; i++) {
-            if (i > 0 && nums.get(i).equals(nums.get(i - 1))) continue;
             List<Integer> realToAdd = new ArrayList<>(toAdd);
             realToAdd.add(nums.get(i));
             Integer num = nums.remove(i);
-            helper(ret, nums, realToAdd);
+            helper(ret, set, nums, realToAdd);
             nums.add(i, num);
         }
     }
