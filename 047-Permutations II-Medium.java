@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
@@ -57,6 +56,34 @@ public class Solution47 {
             realToAdd.add(nums.get(i));
             Integer num = nums.remove(i);
             helper(ret, set, nums, realToAdd);
+            nums.add(i, num);
+        }
+    }
+
+    public static List<List<Integer>> myBetter(int[] nums) {
+        List<List<Integer>> ret = new ArrayList<>();
+        Arrays.sort(nums);
+        List<Integer> numsList = new ArrayList<>();
+        for (int num : nums) {
+            numsList.add(num);
+        }
+        helper2(ret, numsList, new ArrayList<>());
+        return ret;
+    }
+
+    private static void helper2(List<List<Integer>> ret, List<Integer> nums, List<Integer> toAdd) {
+        final int size = nums.size();
+        if (size == 0) {
+            ret.add(toAdd);
+            return;
+        }
+
+        for (int i = 0; i < size; i++) {
+            if (i > 0 && nums.get(i).equals(nums.get(i - 1))) continue;
+            List<Integer> realToAdd = new ArrayList<>(toAdd);
+            realToAdd.add(nums.get(i));
+            Integer num = nums.remove(i);
+            helper2(ret, nums, realToAdd);
             nums.add(i, num);
         }
     }
