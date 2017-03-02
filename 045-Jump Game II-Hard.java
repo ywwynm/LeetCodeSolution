@@ -34,7 +34,7 @@ public class Solution45 {
         nums[nums.length - 1] = 0;
 
         long start = System.currentTimeMillis();
-        int times = jump(nums);
+        int times = dp(nums);
         System.out.println(System.currentTimeMillis() - start);
         System.out.println(times);
     }
@@ -63,6 +63,34 @@ public class Solution45 {
             jumpTimes++;
         }
         return jumpTimes;
+    }
+
+    // Even more time...
+    public static int dp(int[] nums) {
+        final int len = nums.length;
+        int[][] arr = new int[len][len];
+        rec(arr, nums, 0, len - 1);
+        return arr[0][len - 1];
+    }
+
+    private static void rec(int[][] arr, int[] nums, int start, int end) {
+        if (nums[start] >= end - start) {
+            arr[start][end] = 1;
+            return;
+        }
+        int min = Integer.MAX_VALUE;
+        int index = -1;
+        for (int i = start + 1; i < end; i++) {
+            int distance = end - i;
+            int waste = nums[i] - distance;
+            if (i + nums[i] >= end && waste < min) {
+                index = i;
+                min = waste;
+            }
+        }
+        rec(arr, nums, start, index);
+        rec(arr, nums, index, end);
+        arr[start][end] = arr[start][index] + arr[index][end];
     }
 
 }
