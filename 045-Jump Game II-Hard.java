@@ -1,3 +1,5 @@
+import java.util.HashMap;
+
 /**
  * Created by 张启 on 2017/3/2.
  *
@@ -34,7 +36,7 @@ public class Solution45 {
         nums[nums.length - 1] = 0;
 
         long start = System.currentTimeMillis();
-        int times = dp(nums);
+        int times = maybeAnotherKindOfDP(nums);
         System.out.println(System.currentTimeMillis() - start);
         System.out.println(times);
     }
@@ -65,7 +67,7 @@ public class Solution45 {
         return jumpTimes;
     }
 
-    // Even more time...
+    // even much time...
     public static int dp(int[] nums) {
         final int len = nums.length;
         int[][] arr = new int[len][len];
@@ -91,6 +93,35 @@ public class Solution45 {
         rec(arr, nums, start, index);
         rec(arr, nums, index, end);
         arr[start][end] = arr[start][index] + arr[index][end];
+    }
+
+    // also TLE...QAQ
+    public static int maybeAnotherKindOfDP(int[] nums) {
+        HashMap<Integer, Integer> map = new HashMap<>();
+        final int len = nums.length;
+        for (int i = len - 2; i >= 0; i--) {
+            int reachMax = nums[i] + i;
+            if (reachMax > len - 1) reachMax = len - 1;
+            for (int j = i + 1; j <= reachMax; j++) {
+                Integer bestIndex = map.get(j);
+                if (bestIndex == null) {
+                    bestIndex = i;
+                } else {
+                    int distance = reachMax - j;
+                    if (reachMax - bestIndex > distance) {
+                        bestIndex = i;
+                    }
+                }
+                map.put(j, bestIndex);
+            }
+        }
+        Integer i = len - 1;
+        int count = 0;
+        while (i != 0) {
+            i = map.get(i);
+            count++;
+        }
+        return count;
     }
 
 }
