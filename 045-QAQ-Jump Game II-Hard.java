@@ -36,7 +36,7 @@ public class Solution45 {
         nums[nums.length - 1] = 0;
 
         long start = System.currentTimeMillis();
-        int times = maybeAnotherKindOfDP(nums);
+        int times = bestJumpNotByMe(nums);
         System.out.println(System.currentTimeMillis() - start);
         System.out.println(times);
     }
@@ -122,6 +122,22 @@ public class Solution45 {
             count++;
         }
         return count;
+    }
+
+    public static int bestJumpNotByMe(int[] nums) {
+        int lastReach = 0;
+        int reach = 0;
+        int step = 0;
+        for (int i = 0; i < nums.length; i++) {
+            // when last jump can not read current i, increase the step by 1
+            if (i > lastReach) {
+                step++;
+                lastReach = reach;
+            }
+            // update the maximal jump
+            reach = Math.max(reach, nums[i] + i);
+        }
+        return step;
     }
 
 }
